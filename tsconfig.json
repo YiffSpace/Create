@@ -28,7 +28,6 @@
     "allowImportingTsExtensions": true,
     "baseUrl": "lib",
     "paths": {
-      "@util": ["util"],
       "@types": ["types"]
     }
   },

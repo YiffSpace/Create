@@ -5,6 +5,8 @@ import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
+import { setup } from "./util.ts";
+
 interface OptionDef {
     default?: string | boolean | number;
     name: string;
@@ -205,7 +207,9 @@ async function generate(
 ): Promise<void> {
     console.log(`Creating ${templateSlug} project "${options.name as string}"...`);
 
-    (globalThis as Record<string, unknown>).options = options;
+    const g = globalThis as Record<string, unknown>;
+    g.options = options;
+    g.setup = setup;
 
     const scriptsDir = join(TEMPLATES_DIR, templateSlug, "scripts");
     try {
