@@ -1,0 +1,45 @@
+{
+  "name": "create-yiffspace",
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.13.1",
+  "description": "A utility for creating various types of projects",
+  "keywords": [],
+  "homepage": "https://github.com/YiffSpace/Create#readme",
+  "bugs": {
+    "url": "https://github.com/YiffSpace/Create/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YiffSpace/Create.git"
+  },
+  "license": "MIT",
+  "author": "Donovan_DMC <hewwo@yiff.rocks>",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/bun": "^1.3.14",
+    "@types/node": "^25.9.1",
+    "@uwu-codes/eslint-config": "^2.0.8",
+    "eslint": "^9.39.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-unicorn": "^59.0.1",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "globals": "^16.5.0",
+    "jiti": "^2.6.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.57.1"
+  },
+  "dependencies": {
+    "eta": "^4.6.0"
+  },
+  "bin": "./lib/cli.ts",
+  "files": [
+    "lib",
+    "tsconfig.json"
+  ]
+}

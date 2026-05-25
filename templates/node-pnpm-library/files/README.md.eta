@@ -1,0 +1,9 @@
+# <%= it.name %>
+
+This is a node library using pnpm.
+
+## Installation
+
+```bash
+pnpm add <%= it.packageName %>
+```

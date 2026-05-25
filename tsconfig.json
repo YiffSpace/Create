@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "target": "ESNext",
+    "types": ["bun", "node"],
+    "moduleDetection": "force",
+    "inlineSourceMap": true,
+    "importHelpers": false,
+    "newLine": "LF",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "checkJs": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "verbatimModuleSyntax": true,
+    "declaration": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "noUncheckedIndexedAccess": true,
+    "allowImportingTsExtensions": true,
+    "baseUrl": "lib",
+    "paths": {
+      "@util": ["util"],
+      "@types": ["types"]
+    }
+  },
+  "include": ["eslint.config.mts", "lib/**/*", "templates/**/*"],
+  "exclude": ["node_modules"]
+}
