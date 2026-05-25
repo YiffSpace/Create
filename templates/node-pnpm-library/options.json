@@ -1,0 +1,54 @@
+{
+  "description": "Node as a library with pnpm",
+  "args": [
+    {
+      "name": "node-version",
+      "required": false,
+      "default": "24.16.0",
+      "type": "string"
+    },
+    {
+      "name": "pnpm-version",
+      "required": false,
+      "default": "11.3.0",
+      "type": "string"
+    },
+    {
+      "name": "tests",
+      "required": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "publish",
+      "required": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "description",
+      "required": true,
+      "default": "A node library with pnpm",
+      "type": "string"
+    },
+    {
+      "name": "repository-url",
+      "required": true,
+      "default": "https://github.com/YiffSpace/Create",
+      "type": "string"
+    },
+    {
+      "name": "git",
+      "required": true,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "git-branch",
+      "required": true,
+      "default": "master",
+      "type": "string"
+    }
+  ],
+  "scripts": ["install.sh"]
+}
