@@ -32,7 +32,7 @@
     "globals": "^16.5.0",
     "jiti": "^2.6.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.57.1"
+    "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
     "eta": "^4.6.0"
