@@ -28,7 +28,8 @@
     "allowImportingTsExtensions": true,
     "baseUrl": "lib",
     "paths": {
-      "@types": ["types"]
+      "@types": ["types"],
+      "@util": ["util"]
     }
   },
   "include": ["eslint.config.mts", "lib/**/*", "templates/**/*"],

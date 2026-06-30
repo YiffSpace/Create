@@ -1,10 +1,7 @@
+import { setup } from "@util";
+
 import type { BaseOptions } from "@types";
 
-declare const setup: (dir: string, options: BaseOptions & { publish?: boolean }) => Promise<void>;
-
-declare const options: BaseOptions & {
-    bunVersion: string;
-    publish: boolean;
-};
+const options = (globalThis as { options: BaseOptions & { bunVersion: string; publish: boolean } }).options;
 
 await setup(import.meta.dir, options);

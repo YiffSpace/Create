@@ -5,7 +5,14 @@ import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
-import { setup } from "./util.ts";
+import { plugin } from "bun";
+
+plugin({
+    name: "create-yiffspace",
+    setup(build) {
+        build.onResolve({ filter: /^@util$/ }, () => ({ path: join(import.meta.dir, "util.ts") }));
+    },
+});
 
 interface OptionDef {
     default?: string | boolean | number;
@@ -207,9 +214,7 @@ async function generate(
 ): Promise<void> {
     console.log(`Creating ${templateSlug} project "${options.name as string}"...`);
 
-    const g = globalThis as Record<string, unknown>;
-    g.options = options;
-    g.setup = setup;
+    (globalThis as Record<string, unknown>).options = options;
 
     const scriptsDir = join(TEMPLATES_DIR, templateSlug, "scripts");
     try {
