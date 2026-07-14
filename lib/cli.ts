@@ -57,16 +57,7 @@ function applyStandardOptions(
 }
 
 const LOCAL_TEMPLATES_DIR = join(import.meta.dir, "../templates");
-const CACHE_BASE_DIR = join(homedir(), ".cache", "create-yiffspace");
-const CACHE_TEMPLATES_DIR = join(CACHE_BASE_DIR, "templates");
-const CACHE_PACKAGE_FILES = [
-    join(CACHE_BASE_DIR, "package.json"),
-    join(CACHE_BASE_DIR, "lib", "index.ts"),
-    join(CACHE_BASE_DIR, "lib", "util.ts"),
-    join(CACHE_BASE_DIR, "lib", "types.d.ts"),
-    join(CACHE_BASE_DIR, "node_modules", "eta", "package.json"),
-    join(CACHE_BASE_DIR, "node_modules", "eta", "dist", "index.mjs"),
-] as const;
+const CACHE_TEMPLATES_DIR = join(homedir(), ".cache", "create-yiffspace");
 const REPO = "YiffSpace/Create";
 const BRANCH = "templates";
 const FILTER = true;
@@ -81,14 +72,14 @@ async function downloadTemplates(): Promise<string> {
     const tarPath = join(tmpdir(), "create-yiffspace.tar.gz");
     await Bun.write(tarPath, await response.arrayBuffer());
 
-    await mkdir(CACHE_BASE_DIR, { recursive: true });
+    await mkdir(CACHE_TEMPLATES_DIR, { recursive: true });
     const proc = Bun.spawn(
         [
             "tar",
             "-xzf",
             tarPath,
             "-C",
-            CACHE_BASE_DIR,
+            CACHE_TEMPLATES_DIR,
             "--strip-components=1",
         ],
         { stderr: "inherit" },
@@ -101,11 +92,11 @@ async function downloadTemplates(): Promise<string> {
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (FILTER) {
-        for (const entry of await readdir(CACHE_BASE_DIR, { withFileTypes: true })) {
-            if (!entry.isDirectory()) await rm(join(CACHE_BASE_DIR, entry.name));
+        for (const entry of await readdir(CACHE_TEMPLATES_DIR, { withFileTypes: true })) {
+            if (!entry.isDirectory()) await rm(join(CACHE_TEMPLATES_DIR, entry.name));
             else {
-                const optionsExists = await stat(join(CACHE_BASE_DIR, entry.name, "options.json")).then(() => true, () => false);
-                if (!optionsExists) await rm(join(CACHE_BASE_DIR, entry.name), { recursive: true, force: true });
+                const optionsExists = await stat(join(CACHE_TEMPLATES_DIR, entry.name, "options.json")).then(() => true, () => false);
+                if (!optionsExists) await rm(join(CACHE_TEMPLATES_DIR, entry.name), { recursive: true, force: true });
             }
         }
     }
@@ -118,11 +109,6 @@ async function isCompleteCachedInstall(): Promise<boolean> {
     if (!(await exists(CACHE_TEMPLATES_DIR))) {
         return false;
     }
-    for (const file of CACHE_PACKAGE_FILES) {
-        if (!(await exists(file))) {
-            return false;
-        }
-    }
     return true;
 }
 
@@ -130,9 +116,9 @@ async function updateTemplates(): Promise<void> {
     if (await exists(LOCAL_TEMPLATES_DIR)) {
         console.log("Note: a local templates directory is present and takes precedence over the cache.");
     }
-    if (await exists(CACHE_BASE_DIR)) {
+    if (await exists(CACHE_TEMPLATES_DIR)) {
         process.stdout.write("Removing cached templates... ");
-        await rm(CACHE_BASE_DIR, { recursive: true, force: true });
+        await rm(CACHE_TEMPLATES_DIR, { recursive: true, force: true });
         console.log("done");
     }
     await downloadTemplates();
