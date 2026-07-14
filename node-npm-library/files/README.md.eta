@@ -1,0 +1,9 @@
+# <%= it.name %>
+
+This is a node library using npm.
+
+## Installation
+
+```bash
+npm add <%= it.packageName %>
+```

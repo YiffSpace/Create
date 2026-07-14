@@ -1,0 +1,42 @@
+{
+  "description": "Bun as a project",
+  "args": [
+    {
+      "name": "bun-version",
+      "required": false,
+      "default": "1.3.0",
+      "type": "string"
+    },
+    {
+      "name": "tests",
+      "required": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "description",
+      "required": true,
+      "default": "A bun project",
+      "type": "string"
+    },
+    {
+      "name": "repository-url",
+      "required": true,
+      "default": "https://github.com/YiffSpace/Create",
+      "type": "string"
+    },
+    {
+      "name": "git",
+      "required": true,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "git-branch",
+      "required": true,
+      "default": "master",
+      "type": "string"
+    }
+  ],
+  "scripts": ["install.sh"]
+}
