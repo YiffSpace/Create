@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { access } from "node:fs/promises";
 import { mkdir, readdir, rm } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
@@ -56,6 +57,7 @@ function applyStandardOptions(
 }
 
 const LOCAL_TEMPLATES_DIR = join(import.meta.dir, "../templates");
+const USE_LOCAL_TEMPLATES = false;
 const CACHE_TEMPLATES_DIR = join(homedir(), ".cache", "create-yiffspace");
 const REPO = "YiffSpace/Create";
 const BRANCH = "templates";
@@ -89,7 +91,6 @@ async function downloadTemplates(): Promise<string> {
         throw new Error("Failed to extract templates archive");
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (FILTER) {
         for (const entry of await readdir(CACHE_TEMPLATES_DIR, { withFileTypes: true })) {
             if (!entry.isDirectory()) await rm(join(CACHE_TEMPLATES_DIR, entry.name));
@@ -124,7 +125,7 @@ async function updateTemplates(): Promise<void> {
 }
 
 async function resolveTemplatesDir(): Promise<string> {
-    if (await exists(LOCAL_TEMPLATES_DIR)) {
+    if (USE_LOCAL_TEMPLATES && await exists(LOCAL_TEMPLATES_DIR)) {
         return LOCAL_TEMPLATES_DIR;
     }
     if (await isCompleteCachedInstall()) {
@@ -138,7 +139,7 @@ async function getTemplates(dir: string): Promise<Array<string>> {
     for (const entry of await readdir(dir, { withFileTypes: true })) {
         if (!entry.isDirectory()) continue;
         const valid = await isValidTemplate(join(dir, entry.name));
-        if (valid) templates.push(join(dir, entry.name));
+        if (valid) templates.push(entry.name);
     }
     return templates;
 }
@@ -370,7 +371,6 @@ async function runInteractive(TEMPLATES_DIR: string, templates: Array<string>, c
         rl.close();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!collected) return;
     const { templateSlug, config, dirName, useCwd, displayName, packageName, parsedOptions } = collected;
     const outDirectory = useCwd ? process.cwd() : resolve(process.cwd(), dirName);
