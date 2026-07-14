@@ -1,7 +1,6 @@
 #!/usr/bin/env bun
 import { access } from "node:fs/promises";
 import { mkdir, readdir, rm } from "node:fs/promises";
-import { stat } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
@@ -95,8 +94,8 @@ async function downloadTemplates(): Promise<string> {
         for (const entry of await readdir(CACHE_TEMPLATES_DIR, { withFileTypes: true })) {
             if (!entry.isDirectory()) await rm(join(CACHE_TEMPLATES_DIR, entry.name));
             else {
-                const optionsExists = await stat(join(CACHE_TEMPLATES_DIR, entry.name, "options.json")).then(() => true, () => false);
-                if (!optionsExists) await rm(join(CACHE_TEMPLATES_DIR, entry.name), { recursive: true, force: true });
+                const valid = await isValidTemplate(join(CACHE_TEMPLATES_DIR, entry.name));
+                if (!valid) await rm(join(CACHE_TEMPLATES_DIR, entry.name), { recursive: true, force: true });
             }
         }
     }
@@ -135,8 +134,20 @@ async function resolveTemplatesDir(): Promise<string> {
 }
 
 async function getTemplates(dir: string): Promise<Array<string>> {
-    const entries = await readdir(dir, { withFileTypes: true });
-    return entries.filter(e => e.isDirectory() && e.name !== "node_modules").map(e => e.name);
+    const templates: Array<string> = [];
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+        if (!entry.isDirectory()) continue;
+        const valid = await isValidTemplate(join(dir, entry.name));
+        if (valid) templates.push(join(dir, entry.name));
+    }
+    return templates;
+}
+
+async function isValidTemplate(dir: string): Promise<boolean> {
+    if (!await exists(dir)) return false;
+    const optionsExists = await exists(join(dir, "options.json"));
+    const mainExists = await exists(join(dir, "main.ts"));
+    return optionsExists && mainExists;
 }
 
 function toCamelCase(name: string): string {
