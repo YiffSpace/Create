@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 import { access } from "node:fs/promises";
 import { mkdir, readdir, rm } from "node:fs/promises";
+import { stat } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
@@ -67,7 +68,8 @@ const CACHE_PACKAGE_FILES = [
     join(CACHE_BASE_DIR, "node_modules", "eta", "dist", "index.mjs"),
 ] as const;
 const REPO = "YiffSpace/Create";
-const BRANCH = "master";
+const BRANCH = "templates";
+const FILTER = true;
 
 async function downloadTemplates(): Promise<string> {
     process.stdout.write("Fetching templates from repository... ");
@@ -80,7 +82,6 @@ async function downloadTemplates(): Promise<string> {
     await Bun.write(tarPath, await response.arrayBuffer());
 
     await mkdir(CACHE_BASE_DIR, { recursive: true });
-    const repoName = REPO.split("/")[1]!;
     const proc = Bun.spawn(
         [
             "tar",
@@ -89,10 +90,6 @@ async function downloadTemplates(): Promise<string> {
             "-C",
             CACHE_BASE_DIR,
             "--strip-components=1",
-            `${repoName}-${BRANCH}/package.json`,
-            `${repoName}-${BRANCH}/lib`,
-            `${repoName}-${BRANCH}/node_modules/eta`,
-            `${repoName}-${BRANCH}/templates`,
         ],
         { stderr: "inherit" },
     );
@@ -100,6 +97,17 @@ async function downloadTemplates(): Promise<string> {
     await rm(tarPath, { force: true });
     if (code !== 0) {
         throw new Error("Failed to extract templates archive");
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (FILTER) {
+        for (const entry of await readdir(CACHE_BASE_DIR, { withFileTypes: true })) {
+            if (!entry.isDirectory()) await rm(join(CACHE_BASE_DIR, entry.name));
+            else {
+                const optionsExists = await stat(join(CACHE_BASE_DIR, entry.name, "options.json")).then(() => true, () => false);
+                if (!optionsExists) await rm(join(CACHE_BASE_DIR, entry.name), { recursive: true, force: true });
+            }
+        }
     }
 
     console.log("done");

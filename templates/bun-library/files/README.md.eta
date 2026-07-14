@@ -1,9 +1,0 @@
-# <%= it.name %>
-
-This is a bun library.
-
-## Installation
-
-```bash
-bun add <%= it.packageName %>
-```
