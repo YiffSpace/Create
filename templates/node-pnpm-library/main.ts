@@ -1,7 +1,5 @@
-import { setup } from "@util";
+import { util, type Types } from "create-yiffspace";
 
-import type { BaseOptions } from "@types";
+const options = (globalThis as unknown as { options: Types.BaseOptions & { nodeVersion: string; pnpmVersion: string; publish: boolean } }).options;
 
-const options = (globalThis as { options: BaseOptions & { nodeVersion: string; pnpmVersion: string; publish: boolean } }).options;
-
-await setup(import.meta.dir, options);
+await util.setup(import.meta.dir, options);

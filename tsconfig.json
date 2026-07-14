@@ -26,11 +26,8 @@
     "allowSyntheticDefaultImports": true,
     "noUncheckedIndexedAccess": true,
     "allowImportingTsExtensions": true,
-    "baseUrl": "lib",
-    "paths": {
-      "@types": ["types"],
-      "@util": ["util"]
-    }
+    "ignoreDeprecations": "6.0",
+    "baseUrl": "lib"
   },
   "include": ["eslint.config.mts", "lib/**/*", "templates/**/*"],
   "exclude": ["node_modules"]
