@@ -7,3 +7,16 @@ export interface BaseOptions {
     packageName: string;
     tests: boolean;
 }
+
+export interface TemplateConfigOption {
+    default?: string | boolean | number;
+    name: string;
+    required: boolean;
+    type: "string" | "boolean" | "number";
+}
+
+export interface TemplateConfig {
+    args: Array<TemplateConfigOption>;
+    description: string;
+    scripts: Array<string>;
+}
