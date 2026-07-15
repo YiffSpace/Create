@@ -8,14 +8,20 @@
   "type": "module",
   "packageManager": "bun@<%= it.bunVersion %>",
   "main": "src/index.ts",
+<% if (it.repositoryUrl) { %>
   "repository": {
     "type": "git",
     "url": "<%= it.repositoryUrl %>"
   },
+<% } %>
+<% if (it.homepageUrl) { %>
   "homepage": "<%= it.homepageUrl %>",
+<% } %>
+<% if (it.bugsUrl) { %>
   "bugs": {
     "url": "<%= it.bugsUrl %>"
   },
+<% } %>
   "scripts": {
     "lint": "eslint .",
 <% if (it.tests) { %>

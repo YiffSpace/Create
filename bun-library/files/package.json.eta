@@ -11,14 +11,20 @@
   "packageManager": "bun@<%= it.bunVersion %>",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+<% if (it.repositoryUrl) { %>
   "repository": {
     "type": "git",
     "url": "<%= it.repositoryUrl %>"
   },
+<% } %>
+<% if (it.homepageUrl) { %>
   "homepage": "<%= it.homepageUrl %>",
+<% } %>
+<% if (it.bugsUrl) { %>
   "bugs": {
     "url": "<%= it.bugsUrl %>"
   },
+<% } %>
   "scripts": {
     "build": "bun scripts/build.ts && npm run build:types",
     "build:types": "tsc -p tsconfig.types.json",
