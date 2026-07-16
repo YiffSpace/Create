@@ -1,7 +1,7 @@
 import { access } from "node:fs/promises";
 import { join } from "node:path";
 
-import { getTemplateOptions, resolveTemplatesDir } from "./templates.js";
+import { getTemplateOptions, resolveTemplatesDir } from "./templates.ts";
 
 import type { PathLike } from "node:fs";
 

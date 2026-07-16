@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path";
 
-import { applyStandardOptions, generate, prepareOutputDir } from "../util/generate.js";
-import { getTemplateOptions, resolveTemplatesDir } from "../util/templates.js";
+import { applyStandardOptions, generate, prepareOutputDir } from "../util/generate.ts";
+import { getTemplateOptions, resolveTemplatesDir } from "../util/templates.ts";
 
 export async function runGenerate(template: string, dirArg: string, projectName: string, options: Record<string, unknown>): Promise<void> {
     const useCwd = dirArg === ".";

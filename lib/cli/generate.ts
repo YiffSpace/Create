@@ -1,9 +1,9 @@
 import { join } from "node:path";
 
-import { runGenerate } from "./commands/generate.js";
-import { printTemplateHelp } from "./commands/help.js";
-import { getTemplateOptions, getTemplates, resolveTemplatesDir } from "./util/templates.js";
-import { parseExtraOptions } from "./util/util.js";
+import { runGenerate } from "./commands/generate.ts";
+import { printTemplateHelp } from "./commands/help.ts";
+import { getTemplateOptions, getTemplates, resolveTemplatesDir } from "./util/templates.ts";
+import { parseExtraOptions } from "./util/util.ts";
 
 import type { PositionalsType, ValuesType } from "./main";
 

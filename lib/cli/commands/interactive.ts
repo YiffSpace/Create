@@ -1,11 +1,11 @@
 import { join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
-import { applyStandardOptions, generate, prepareOutputDir } from "../util/generate.js";
-import { getTemplateOptions, getTemplates, resolveTemplatesDir } from "../util/templates.js";
-import { toCamelCase } from "../util/util.js";
+import { applyStandardOptions, generate, prepareOutputDir } from "../util/generate.ts";
+import { getTemplateOptions, getTemplates, resolveTemplatesDir } from "../util/templates.ts";
+import { toCamelCase } from "../util/util.ts";
 
-import type { TemplateConfig } from "../../types.js";
+import type { TemplateConfig } from "../../types.ts";
 
 export async function runInteractive(): Promise<void> {
     if (!process.stdin.isTTY) {

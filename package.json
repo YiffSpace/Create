@@ -1,6 +1,6 @@
 {
   "name": "create-yiffspace",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@10.13.1",
   "main": "lib/index.ts",
   "description": "A utility for creating various types of projects",
@@ -39,9 +39,10 @@
     "eta": "^4.6.0"
   },
   "bin": {
-    "create-yiffspace": "lib/cli/main.ts"
+    "create-yiffspace": "bin/create-yiffspace"
   },
   "files": [
+    "bin",
     "lib",
     ".bun-version",
     "tsconfig.json"

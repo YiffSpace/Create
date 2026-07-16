@@ -1,9 +1,9 @@
-import { printHelp } from "./commands/help.js";
-import { runInteractive } from "./commands/interactive.js";
-import { updateTemplates } from "./commands/updateTemplates.js";
-import { printVersion } from "./commands/version.js";
+import { printHelp } from "./commands/help.ts";
+import { runInteractive } from "./commands/interactive.ts";
+import { updateTemplates } from "./commands/updateTemplates.ts";
+import { printVersion } from "./commands/version.ts";
 
-import type { ValuesType } from "./main.js";
+import type { ValuesType } from "./main.ts";
 
 export async function runRootMain(values: ValuesType): Promise<void> {
     if (values.help) {

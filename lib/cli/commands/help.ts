@@ -1,8 +1,8 @@
 import { join } from "node:path";
 
-import { getTemplateOptions, getTemplates, resolveTemplatesDir } from "../util/templates.js";
+import { getTemplateOptions, getTemplates, resolveTemplatesDir } from "../util/templates.ts";
 
-import type { TemplateConfig } from "../../types.js";
+import type { TemplateConfig } from "../../types.ts";
 
 export async function printHelp(): Promise<void> {
     console.log("Usage: create-yiffspace <template> [options]\n");

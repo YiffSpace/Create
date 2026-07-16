@@ -1,7 +1,7 @@
 import { exists, mkdir, rm } from "fs/promises";
 import { join } from "path";
 
-import type { TemplateConfig } from "../../types";
+import type { TemplateConfig } from "../../types.ts";
 
 export async function prepareOutputDir(outDirectory: string, useCwd: boolean): Promise<void> {
     if (useCwd) return;

@@ -1,7 +1,9 @@
+#!/usr/bin/env bun
+
 import { parseArgs } from "node:util";
 
-import { runGenerateMain } from "./generate.js";
-import { runRootMain } from "./root.js";
+import { runGenerateMain } from "./generate.ts";
+import { runRootMain } from "./root.ts";
 
 const { values, positionals } = parseArgs({
     args: Bun.argv.slice(2),

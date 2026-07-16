@@ -4,10 +4,10 @@ import { rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { BRANCH, CACHE_TEMPLATES_DIR, LOCAL_TEMPLATES_DIR, REPO, USE_LOCAL_TEMPLATES } from "./constants.js";
-import { exists } from "./util.js";
+import { BRANCH, CACHE_TEMPLATES_DIR, LOCAL_TEMPLATES_DIR, REPO, USE_LOCAL_TEMPLATES } from "./constants.ts";
+import { exists } from "./util.ts";
 
-import type { TemplateConfig } from "../../types.js";
+import type { TemplateConfig } from "../../types.ts";
 
 export async function isValidTemplate(dir: string): Promise<boolean> {
     if (!await exists(dir)) return false;

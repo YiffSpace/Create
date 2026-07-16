@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 
 import { Eta } from "eta";
 
-import type { BaseOptions } from "./types.js";
+import type { BaseOptions } from "./types.ts";
 
 export const eta = new Eta();
 

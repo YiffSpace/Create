@@ -1,7 +1,7 @@
 import { exists, rm } from "fs/promises";
 
-import { CACHE_TEMPLATES_DIR, LOCAL_TEMPLATES_DIR, USE_LOCAL_TEMPLATES } from "../util/constants.js";
-import { downloadTemplates } from "../util/templates.js";
+import { CACHE_TEMPLATES_DIR, LOCAL_TEMPLATES_DIR, USE_LOCAL_TEMPLATES } from "../util/constants.ts";
+import { downloadTemplates } from "../util/templates.ts";
 
 export async function updateTemplates(): Promise<void> {
     if (USE_LOCAL_TEMPLATES && await exists(LOCAL_TEMPLATES_DIR)) {
