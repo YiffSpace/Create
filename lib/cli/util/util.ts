@@ -28,7 +28,7 @@ export async function parseExtraOptions(template: string, options: Record<string
     for (const [name, value] of Object.entries(options)) {
         const isNo = name.startsWith("no-");
         const key = toCamelCase(isNo ? name.slice(3) : name);
-        const def = config.args.find(a => a.name === key);
+        const def = config.args.find(a => toCamelCase(a.name) === key);
         if (!def) {
             console.log(`Unknown option: ${value}`);
             process.exit(1);
