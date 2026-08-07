@@ -1,4 +1,4 @@
-import { exists, mkdir, rm } from "fs/promises";
+import { exists, mkdir, rename, rm } from "fs/promises";
 import { join } from "path";
 
 import type { TemplateConfig } from "../../types.ts";
@@ -34,8 +34,23 @@ export async function generate(
     (globalThis as Record<string, unknown>).options = options;
 
     const scriptsDir = join(templatesDir, templateSlug, "scripts");
+
+    // Version managers (nodenv, asdf) auto-switch the active Node the moment anything execs
+    // `node` under this directory once a `.node-version` file exists. That pin describes what
+    // the finished project should run on, not what's needed to run its own install step (e.g.
+    // a newer package manager may require a newer Node than the project targets). Hide it while
+    // the scripts run so they execute under whatever toolchain is already active.
+    const nodeVersionFile = join(outDirectory, ".node-version");
+    const hiddenNodeVersionFile = join(outDirectory, ".node-version.generate-tmp");
+    let hidNodeVersionFile = false;
+
     try {
         await import(join(templatesDir, templateSlug, "main.ts"));
+
+        if (await exists(nodeVersionFile)) {
+            await rename(nodeVersionFile, hiddenNodeVersionFile);
+            hidNodeVersionFile = true;
+        }
 
         for (const script of config.scripts) {
             console.log(`\n$ ${script}`);
@@ -55,6 +70,10 @@ export async function generate(
             await rm(outDirectory, { recursive: true, force: true });
         }
         throw err;
+    } finally {
+        if (hidNodeVersionFile && await exists(hiddenNodeVersionFile)) {
+            await rename(hiddenNodeVersionFile, nodeVersionFile);
+        }
     }
 
     console.log(`\nProject created at ${outDirectory}`);

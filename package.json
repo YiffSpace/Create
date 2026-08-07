@@ -1,6 +1,6 @@
 {
   "name": "create-yiffspace",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "packageManager": "pnpm@10.13.1",
   "main": "lib/index.ts",
   "description": "A utility for creating various types of projects",

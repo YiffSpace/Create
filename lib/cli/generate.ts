@@ -1,5 +1,5 @@
-import { parseArgs } from "node:util";
 import { join } from "node:path";
+import { parseArgs } from "node:util";
 
 import { runGenerate } from "./commands/generate.ts";
 import { printTemplateHelp } from "./commands/help.ts";
