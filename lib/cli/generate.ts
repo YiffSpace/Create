@@ -1,3 +1,4 @@
+import { parseArgs } from "node:util";
 import { join } from "node:path";
 
 import { runGenerate } from "./commands/generate.ts";
@@ -27,32 +28,62 @@ export async function runGenerateMain(values: ValuesType, positionals: Positiona
         process.exit(1);
     }
 
-    if (positionals.length > 2 || values.help) {
+    // The initial parse in main.ts only knows about the global flags, so template-specific
+    // options (whose names depend on the template chosen above) get misread as booleans and
+    // their values get misread as extra positionals. Re-parse the raw argv now that the
+    // template's option schema is known.
+    const optionsSchema: Record<string, { type: "string" | "boolean" }> = {
+        "help": { type: "boolean" },
+        "version": { type: "boolean" },
+        "interactive": { type: "boolean" },
+        "update-templates": { type: "boolean" },
+        "name": { type: "string" },
+    };
+    for (const def of config.args) {
+        optionsSchema[def.name] = { type: def.type === "boolean" ? "boolean" : "string" };
+    }
+
+    let parsed: { positionals: Array<string>; values: Record<string, string | boolean | undefined> };
+    try {
+        parsed = parseArgs({
+            args: Bun.argv.slice(2),
+            options: optionsSchema,
+            strict: true,
+            allowNegative: true,
+            allowPositionals: true,
+        });
+    } catch (err) {
+        console.error((err as Error).message);
+        process.exit(1);
+    }
+
+    if (parsed.positionals.length > 2 || parsed.values.help) {
         await printTemplateHelp(template, config);
         process.exit(1);
     }
 
-    if (positionals.length === 1) {
+    if (parsed.positionals.length === 1) {
         console.error("Missing required argument: <project-name>");
         process.exit(1);
     }
 
-    let dir = positionals[1]!, projectName = positionals[1]!;
+    let dir = parsed.positionals[1]!, projectName = parsed.positionals[1]!;
 
-    if (positionals[1] === ".") {
-        if (!("name" in values) || values.name === undefined) {
+    if (parsed.positionals[1] === ".") {
+        if (!("name" in parsed.values) || parsed.values.name === undefined) {
             console.error("--name is required when using . as the project directory");
             process.exit(1);
         }
         dir = ".";
-        projectName = String(values.name);
+        projectName = String(parsed.values.name);
     }
 
-    const extraArgs = structuredClone(values);
+    const extraArgs = structuredClone(parsed.values);
     delete extraArgs.help;
     delete extraArgs.version;
     delete extraArgs["update-templates"];
     delete extraArgs.interactive;
+    delete extraArgs.name;
     const options = await parseExtraOptions(template, extraArgs as Record<string, string>);
     if (typeof options === "string") {
         console.error(options);
